@@ -31,7 +31,7 @@ describe('rate-rateNotifier', () => {
             },
           },
           token: 'test_token',
-        })
+        }),
       );
     });
     it('should send no informations if missing one header key', () => {
