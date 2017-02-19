@@ -42,6 +42,12 @@ const schemas = {
     'url',
     'locked',
   ],
+  review: [
+    {
+      user: ['login'],
+    },
+    'state',
+  ],
   user: [
     'login',
   ],
