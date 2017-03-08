@@ -19,10 +19,10 @@ function orderPulls(pulls, order) {
   return _.orderBy(pulls, order.field, order.direction);
 }
 
-const Container = ({ filters, order, pulls, user }) => (
+const Container = ({ filters, order, pulls }) => (
   <div className="pull-container container-fluid">
     {orderPulls(filterPulls(pulls, filters), order).map((pull, index) => (
-      <PullRequest key={index} pull={pull} user={user} />
+      <PullRequest key={index} pull={pull} />
     ))}
   </div>
 );
@@ -36,7 +36,6 @@ Container.propTypes = {
     field: PropTypes.string.isRequired,
   }),
   pulls: PropTypes.arrayOf(PropTypes.shape(PullRequest.propTypes)).isRequired,
-  user: PropTypes.shape(PullRequest.propTypes.user),
 };
 
 export default Container;

@@ -23,7 +23,7 @@ const Application = (props) => {
         ? <HomepageJumbotron />
         : (
           <section className="dashboard clearfix">
-            <Container pulls={github.pulls} filters={filters} order={order} user={github.user} />
+            <Container pulls={github.pulls} filters={filters} order={order} />
           </section>
         )
       }

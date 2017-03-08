@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
     case RECEIVED_PULLS_STATUSES:
       return Object.assign({}, state, { pulls: pullsStatuses(state.pulls, action) });
     case RECEIVED_PULLS_REVIEWS:
-      return Object.assign({}, state, { pulls: pullsReviews(state.pulls, action) });
+      return Object.assign({}, state, { pulls: pullsReviews(state.pulls, action, state.user) });
     case RECEIVED_TEAMS:
       return Object.assign(
         {},

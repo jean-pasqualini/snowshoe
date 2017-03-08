@@ -1,53 +1,52 @@
 import React, { PropTypes } from 'react';
 
-import config from '../../../config/front';
-
 import PullRequestStatuses from './PullRequestStatuses';
 import Label from './Label';
 
 /* eslint-disable max-len */
-const error = (
-  <svg
-    aria-hidden="true"
-    height="16"
-    version="1.1"
-    viewBox="0 0 12 16"
-    width="12"
-    style={{
-      color: '#bd2c00',
-      fill: 'currentColor',
-    }}
-  >
-    <path
-      fillRule="evenodd"
-      d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"
-    />
-  </svg>
-);
-const success = (
-  <svg
-    aria-hidden="true"
-    height="16"
-    version="1.1"
-    viewBox="0 0 12 16"
-    width="12"
-    style={{
-      color: '#55a532',
-      fill: 'currentColor',
-    }}
-  >
-    <path
-      fillRule="evenodd"
-      d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"
-    />
-  </svg>
-);
+const badge = {
+  error: (
+    <svg
+      aria-hidden="true"
+      height="16"
+      version="1.1"
+      viewBox="0 0 12 16"
+      width="12"
+      style={{
+        color: '#bd2c00',
+        fill: 'currentColor',
+      }}
+    >
+      <path
+        fillRule="evenodd"
+        d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"
+      />
+    </svg>
+  ),
+  success: (
+    <svg
+      aria-hidden="true"
+      height="16"
+      version="1.1"
+      viewBox="0 0 12 16"
+      width="12"
+      style={{
+        color: '#55a532',
+        fill: 'currentColor',
+      }}
+    >
+      <path
+        fillRule="evenodd"
+        d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"
+      />
+    </svg>
+  ),
+};
 /* eslint-enable max-len */
 
-const PullRequest = ({ pull, user }) => {
+const PullRequest = ({ pull }) => {
   const classes = ['img-circle'];
   const attributes = {};
-  const reviews = pull.reviews || [];
 
   if (pull.lastStatus) {
     classes.push(pull.lastStatus.state);
@@ -56,12 +55,6 @@ const PullRequest = ({ pull, user }) => {
   if (pull.disabled) {
     attributes.disabled = 'disabled';
   }
-
-  const state = reviews.reduce((object, review) => {
-    object[review.state] = object[review.state] + 1 || 1;
-
-    return object;
-  }, {});
 
   return (
     <div className="pull-request thumbnail" {...attributes}>
@@ -73,13 +66,10 @@ const PullRequest = ({ pull, user }) => {
       </header>
       <div className="badge-wrapper">
         <span className="badge">
-          {state.APPROVED === config.get('snowshow.review_required')
-            ? success
-            : error
-          }
+          {pull.mergeable ? badge.success : badge.error}
         </span>
         <span className="badge">
-          {reviews.filter((review) => review.user.login === user.login).length
+          {pull.viewed
             ? <span className="glyphicon glyphicon-eye-open" />
             : ''
           }
@@ -121,9 +111,6 @@ PullRequest.propTypes = {
     })),
     number: PropTypes.number,
     title: PropTypes.string.isReqired,
-  }),
-  user: PropTypes.shape({
-    login: PropTypes.string.isRequired,
   }),
 };
 

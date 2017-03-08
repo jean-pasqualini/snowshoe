@@ -47,9 +47,11 @@ const schemas = {
       user: ['login'],
     },
     'state',
+    'submitted_at',
   ],
   user: [
     'login',
+    'repos_url',
   ],
 };
 
